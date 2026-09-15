@@ -86,13 +86,13 @@ struct PreviewView: View {
             }
         }
         .contextMenu {
-            Button("Show in Finder") {
+            Button("Show in Finder".local) {
                 if fd.fileExists(atPath: filePath) {
                     NSWorkspace.shared.activateFileViewerSelecting([filePath.url])
                 }
                 closeWindow()
             }
-            Button("Delete") {
+            Button("Delete".local) {
                 do {
                     try fd.removeItem(atPath: filePath)
                 } catch {
@@ -101,7 +101,7 @@ struct PreviewView: View {
                 closeWindow()
             }
             Divider()
-            Button("Copy") {
+            Button("Copy".local) {
                 if fd.fileExists(atPath: filePath) {
                     let pasteboard = NSPasteboard.general
                     pasteboard.clearContents()
@@ -109,10 +109,10 @@ struct PreviewView: View {
                 }
                 closeWindow()
             }
-            Button("共享...") { showSharingServicePicker(for: filePath.url) }
+            Button("Share...".local) { showSharingServicePicker(for: filePath.url) }
             Divider()
             if !trimAfterRecord {
-                Button("Trim") {
+                Button("Trim".local) {
                     if fd.fileExists(atPath: filePath) {
                         AppDelegate.shared.createNewWindow(view: VideoTrimmerView(videoURL: filePath.url), title: filePath.lastPathComponent, only: false)
                     }
@@ -121,21 +121,21 @@ struct PreviewView: View {
             }
             if #available(macOS 13, *) {
                 if ["mp4", "mov"].contains(filePath.pathExtension) {
-                    Button("Make GIF") {
+                    Button("Make GIF".local) {
                         if isAppInstalled(id: "com.sindresorhus.Gifski") {
                             makeGif()
                             closeWindow()
                         } else {
-                            let alert = createAlert(title: "Gifski not found",
-                                                    message: "Please install \"Gifski\" first to make GIF!",
-                                                    button1: "Open App Store", button2: "Cancel").runModal()
+                            let alert = createAlert(title: "Gifski not found".local,
+                                                    message: "Please install \"Gifski\" first to make GIF!".local,
+                                                    button1: "Open App Store".local, button2: "Cancel".local).runModal()
                             if alert == .alertFirstButtonReturn { openURL("https://apps.apple.com/app/id1351639930") }
                         }
                     }
                     Divider()
                 }
             }
-            Button("Close") { closeWindow() }
+            Button("Close".local) { closeWindow() }
         }
     }
     
